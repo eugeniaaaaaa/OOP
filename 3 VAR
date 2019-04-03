@@ -1,0 +1,58 @@
+#include "pch.h"
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+	const int len = 50, strings = 50;
+	int k = 0;
+	int p = 0;
+	int num = 0;
+	int count = -1;
+	string x = "";
+	string y = "";
+	const char ch = '\n';
+	char mass[len][strings];
+	ifstream fs("formulas.txt", ios::in | ios::binary);
+	if (!fs) return 1;
+	string str;
+	for (int r = 0; r < strings; r++)
+	{
+		fs.getline(mass[r], len - 1, ch);
+		string temp = mass[r];
+		while (temp[num] != '\n')
+		{
+			for (int i = count + 1; i < temp.length(); i++)
+			{
+				while (temp[i] != '(' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9')
+				{
+					x += temp[i];
+					k++;
+				}
+				count++;
+			}
+			cout << x << " : ";
+			if (temp[k + 1] == ')') cout << "1";
+			else cout << temp[k + 1];
+			cout << endl;
+			for (int j = k + 1; j < temp.length(); j++)
+			{
+				while (temp[j] != ')')
+				{
+					y += temp[j];
+					p++;
+				}
+				count++;
+			}
+			cout << y << " : " << temp[p + 1];
+			cout << endl;
+		}
+		num--;
+	}
+	fs.close();
+	return 0;
+}
